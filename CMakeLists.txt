@@ -12,6 +12,7 @@ endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     message("DEBUG MODE")
+    set(MATCH_DEBUG_MODE ON)
 endif()
 
 if (WIN32)
