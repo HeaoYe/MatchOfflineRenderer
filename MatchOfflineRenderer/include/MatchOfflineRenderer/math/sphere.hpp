@@ -5,7 +5,7 @@
 #include <MatchOfflineRenderer/math/bounds.hpp>
 #include <MatchOfflineRenderer/math/transform.hpp>
 
-namespace MatchOfflineRenderer {
+namespace MatchOfflineRenderer::math {
     // 球面参数化
     // 实现了三种参数化
     // 1.球坐标

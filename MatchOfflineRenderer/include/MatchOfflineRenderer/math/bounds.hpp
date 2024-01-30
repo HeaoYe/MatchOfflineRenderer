@@ -2,7 +2,7 @@
 
 #include <MatchOfflineRenderer/math/point.hpp>
 
-namespace MatchOfflineRenderer {
+namespace MatchOfflineRenderer::math {
     // 2D包围盒和3D包围盒
     
     template <typename T>
@@ -18,7 +18,7 @@ namespace MatchOfflineRenderer {
         
         Bounds2(const Point2<T> &rhs) noexcept : min(rhs), max(rhs) {}
         
-        Bounds2(const Point2<T> &lhs, const Point2<T> &rhs) noexcept : min(::MatchOfflineRenderer::min(lhs, rhs)), max(::MatchOfflineRenderer::max(lhs, rhs)) {}
+        Bounds2(const Point2<T> &lhs, const Point2<T> &rhs) noexcept : min(::MatchOfflineRenderer::math::min(lhs, rhs)), max(::MatchOfflineRenderer::math::max(lhs, rhs)) {}
 
         const Point2<T> &operator[](int i) const noexcept {
             if (i == 0) return min;
@@ -72,7 +72,7 @@ namespace MatchOfflineRenderer {
         }
 
         Point2<T> lerp(const Point2f &t) const noexcept {
-            return Point2 { ::MatchOfflineRenderer::lerp(min.x, max.x, t.x), ::MatchOfflineRenderer::lerp(min.y, max.y, t.y) };
+            return Point2 { ::MatchOfflineRenderer::math::lerp(min.x, max.x, t.x), ::MatchOfflineRenderer::math::lerp(min.y, max.y, t.y) };
         }
         
         Vector2<T> offset(const Point2<T> &rhs) const noexcept {
@@ -102,22 +102,22 @@ namespace MatchOfflineRenderer {
 
         inline static Bounds2 generate_union(const Bounds2 &lhs, const Point2<T> rhs) noexcept {
             return {
-                ::MatchOfflineRenderer::min(lhs.min, rhs),
-                ::MatchOfflineRenderer::max(lhs.max, rhs),
+                ::MatchOfflineRenderer::math::min(lhs.min, rhs),
+                ::MatchOfflineRenderer::math::max(lhs.max, rhs),
             };
         }
 
         inline static Bounds2 generate_union(const Bounds2 &lhs, const Bounds2 rhs) noexcept {
             return {
-                ::MatchOfflineRenderer::min(lhs.min, rhs.min),
-                ::MatchOfflineRenderer::max(lhs.max, rhs.max),
+                ::MatchOfflineRenderer::math::min(lhs.min, rhs.min),
+                ::MatchOfflineRenderer::math::max(lhs.max, rhs.max),
             };
         }
 
         inline static Bounds2 generate_intersect(const Bounds2 &lhs, const Bounds2 rhs) noexcept {
             return {
-                ::MatchOfflineRenderer::max(lhs.min, rhs.min),
-                ::MatchOfflineRenderer::min(lhs.max, rhs.max),
+                ::MatchOfflineRenderer::math::max(lhs.min, rhs.min),
+                ::MatchOfflineRenderer::math::min(lhs.max, rhs.max),
             };
         }
     };
@@ -143,7 +143,7 @@ namespace MatchOfflineRenderer {
         
         Bounds3(const Point3<T> &rhs) noexcept : min(rhs), max(rhs) {}
         
-        Bounds3(const Point3<T> &lhs, const Point3<T> &rhs) noexcept : min(::MatchOfflineRenderer::min(lhs, rhs)), max(::MatchOfflineRenderer::max(lhs, rhs)) {}
+        Bounds3(const Point3<T> &lhs, const Point3<T> &rhs) noexcept : min(::MatchOfflineRenderer::math::min(lhs, rhs)), max(::MatchOfflineRenderer::math::max(lhs, rhs)) {}
 
         const Point3<T> &operator[](int i) const noexcept {
             MCH_DASSERT((0 <= i) && (i < 2))
@@ -253,22 +253,22 @@ namespace MatchOfflineRenderer {
 
         inline static Bounds3 generate_union(const Bounds3 &lhs, const Point3<T> rhs) noexcept {
             return {
-                ::MatchOfflineRenderer::min(lhs.min, rhs),
-                ::MatchOfflineRenderer::max(lhs.max, rhs),
+                ::MatchOfflineRenderer::math::min(lhs.min, rhs),
+                ::MatchOfflineRenderer::math::max(lhs.max, rhs),
             };
         }
 
         inline static Bounds3 generate_union(const Bounds3 &lhs, const Bounds3 rhs) noexcept {
             return {
-                ::MatchOfflineRenderer::min(lhs.min, rhs.min),
-                ::MatchOfflineRenderer::max(lhs.max, rhs.max),
+                ::MatchOfflineRenderer::math::min(lhs.min, rhs.min),
+                ::MatchOfflineRenderer::math::max(lhs.max, rhs.max),
             };
         }
 
         inline static Bounds3 generate_intersect(const Bounds3 &lhs, const Bounds3 rhs) noexcept {
             return {
-                ::MatchOfflineRenderer::max(lhs.min, rhs.min),
-                ::MatchOfflineRenderer::min(lhs.max, rhs.max),
+                ::MatchOfflineRenderer::math::max(lhs.min, rhs.min),
+                ::MatchOfflineRenderer::math::min(lhs.max, rhs.max),
             };
         }
     };

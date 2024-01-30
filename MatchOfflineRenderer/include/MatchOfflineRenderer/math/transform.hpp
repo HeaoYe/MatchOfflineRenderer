@@ -7,7 +7,7 @@
 #include <MatchOfflineRenderer/math/ray.hpp>
 #include <MatchOfflineRenderer/math/bounds.hpp>
 
-namespace MatchOfflineRenderer {
+namespace MatchOfflineRenderer::math {
     // 坐标系
 
     struct CoordinateSystem {
@@ -121,7 +121,7 @@ namespace MatchOfflineRenderer {
         Transform() noexcept = default;
 
         Transform(const SquareMatrix<4> &rhs) noexcept : matrix(rhs) {
-            auto inv = ::MatchOfflineRenderer::inverse(rhs);
+            auto inv = ::MatchOfflineRenderer::math::inverse(rhs);
             if (inv.has_value()) {
                 inv_matrix = inv.value();
             } else {

@@ -5,7 +5,7 @@
 #include <MatchOfflineRenderer/math/point.hpp>
 #include <MatchOfflineRenderer/math/normal.hpp>
 
-namespace MatchOfflineRenderer {
+namespace MatchOfflineRenderer::math {
     struct SurfaceInteraction;
     struct MediumInteraction;
     struct MediumInterface;

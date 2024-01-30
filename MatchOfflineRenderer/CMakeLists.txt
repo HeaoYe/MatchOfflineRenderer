@@ -1,8 +1,7 @@
 project(MatchOfflineRenderer)
 
 file(GLOB_RECURSE source CONFIGURE_DEPENDS src/MatchOfflineRenderer/*.cpp)
-
-add_executable(MatchOfflineRenderer ${source})
+add_library(MatchOfflineRenderer STATIC ${source})
 target_include_directories(MatchOfflineRenderer PUBLIC include)
 
 # Link spdlog

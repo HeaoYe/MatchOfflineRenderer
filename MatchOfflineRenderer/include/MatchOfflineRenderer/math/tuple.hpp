@@ -4,7 +4,7 @@
 
 #include <cmath>
 
-namespace MatchOfflineRenderer {
+namespace MatchOfflineRenderer::math {
     // 2元数和3元数,是 向量 点 法线 的基类
     template <template <typename> class Child, typename T>
     struct Tuple2 {
@@ -344,11 +344,11 @@ namespace MatchOfflineRenderer {
             return std::max(std::max(x, y), z);
         }
 
-        T min_dimension() const noexcept {
+        Int min_dimension() const noexcept {
             return (x < y) ? ((x < z) ? 0 : 2) : ((y < z) ? 1 : 2);
         }
 
-        T max_dimension() const noexcept {
+        Int max_dimension() const noexcept {
             return (x > y) ? ((x > z) ? 0 : 2) : ((y > z) ? 1 : 2);
         }
 

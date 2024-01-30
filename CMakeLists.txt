@@ -42,3 +42,4 @@ option(SPDLOG_BUILD_PIC "Build position independent code (-fPIC)" ON)
 add_subdirectory(thirdparty/spdlog)
 
 add_subdirectory(MatchOfflineRenderer)
+add_subdirectory(Sandbox)

@@ -8,7 +8,7 @@
 #include <fmt/format.h>
 
 
-namespace MatchOfflineRenderer {
+namespace MatchOfflineRenderer::math {
     // 2D向量和3D向量
     
     template <typename T>
@@ -272,8 +272,8 @@ namespace MatchOfflineRenderer {
 }
 
 template <typename T>
-struct fmt::formatter<MatchOfflineRenderer::Vector2<T>> : fmt::formatter<std::string_view> {
-    auto format(const MatchOfflineRenderer::Vector2<T> &v, format_context& ctx) const noexcept {
+struct fmt::formatter<MatchOfflineRenderer::math::Vector2<T>> : fmt::formatter<std::string_view> {
+    auto format(const MatchOfflineRenderer::math::Vector2<T> &v, format_context& ctx) const noexcept {
         std::stringstream ss;
         ss << "Vector2<T> " << "{ " << v.x << ", " << v.y << " }";
         return formatter<string_view>::format(ss.str(), ctx);
@@ -281,8 +281,8 @@ struct fmt::formatter<MatchOfflineRenderer::Vector2<T>> : fmt::formatter<std::st
 };
 
 template <>
-struct fmt::formatter<MatchOfflineRenderer::Vector2i> : formatter<std::string_view> {
-    auto format(const MatchOfflineRenderer::Vector2i &v, format_context& ctx) const noexcept {
+struct fmt::formatter<MatchOfflineRenderer::math::Vector2i> : formatter<std::string_view> {
+    auto format(const MatchOfflineRenderer::math::Vector2i &v, format_context& ctx) const noexcept {
         std::stringstream ss;
         ss << "Vector2i " << "{ " << v.x << ", " << v.y << " }";
         return formatter<string_view>::format(ss.str(), ctx);
@@ -290,8 +290,8 @@ struct fmt::formatter<MatchOfflineRenderer::Vector2i> : formatter<std::string_vi
 };
 
 template <>
-struct fmt::formatter<MatchOfflineRenderer::Vector2f> : formatter<std::string_view> {
-    auto format(const MatchOfflineRenderer::Vector2f &v, format_context& ctx) const noexcept {
+struct fmt::formatter<MatchOfflineRenderer::math::Vector2f> : formatter<std::string_view> {
+    auto format(const MatchOfflineRenderer::math::Vector2f &v, format_context& ctx) const noexcept {
         std::stringstream ss;
         ss << "Vector2f " << "{ " << v.x << ", " << v.y << " }";
         return formatter<string_view>::format(ss.str(), ctx);
@@ -299,8 +299,8 @@ struct fmt::formatter<MatchOfflineRenderer::Vector2f> : formatter<std::string_vi
 };
 
 template <typename T>
-struct fmt::formatter<MatchOfflineRenderer::Vector3<T>> : fmt::formatter<std::string_view> {
-    auto format(const MatchOfflineRenderer::Vector3<T> &v, format_context& ctx) const noexcept {
+struct fmt::formatter<MatchOfflineRenderer::math::Vector3<T>> : fmt::formatter<std::string_view> {
+    auto format(const MatchOfflineRenderer::math::Vector3<T> &v, format_context& ctx) const noexcept {
         std::stringstream ss;
         ss << "Vector3<T> " << "{ " << v.x << ", " << v.y << ", " << v.z << " }";
         return formatter<string_view>::format(ss.str(), ctx);
@@ -308,8 +308,8 @@ struct fmt::formatter<MatchOfflineRenderer::Vector3<T>> : fmt::formatter<std::st
 };
 
 template <>
-struct fmt::formatter<MatchOfflineRenderer::Vector3i> : formatter<std::string_view> {
-    auto format(const MatchOfflineRenderer::Vector3i &v, format_context& ctx) const noexcept {
+struct fmt::formatter<MatchOfflineRenderer::math::Vector3i> : formatter<std::string_view> {
+    auto format(const MatchOfflineRenderer::math::Vector3i &v, format_context& ctx) const noexcept {
         std::stringstream ss;
         ss << "Vector3i " << "{ " << v.x << ", " << v.y << ", " << v.z << " }";
         return formatter<string_view>::format(ss.str(), ctx);
@@ -317,8 +317,8 @@ struct fmt::formatter<MatchOfflineRenderer::Vector3i> : formatter<std::string_vi
 };
 
 template <>
-struct fmt::formatter<MatchOfflineRenderer::Vector3f> : formatter<std::string_view> {
-    auto format(const MatchOfflineRenderer::Vector3f &v, format_context& ctx) const noexcept {
+struct fmt::formatter<MatchOfflineRenderer::math::Vector3f> : formatter<std::string_view> {
+    auto format(const MatchOfflineRenderer::math::Vector3f &v, format_context& ctx) const noexcept {
         std::stringstream ss;
         ss << "Vector3f " << "{ " << v.x << ", " << v.y << ", " << v.z << " }";
         return formatter<string_view>::format(ss.str(), ctx);

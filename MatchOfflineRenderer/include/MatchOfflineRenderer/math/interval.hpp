@@ -3,7 +3,7 @@
 #include <MatchOfflineRenderer/math/types.hpp>
 #include <cmath>
 
-namespace MatchOfflineRenderer {
+namespace MatchOfflineRenderer::math {
     inline uint32_t float_to_bits(float rhs) {
         uint32_t dst;
         std::memcpy(&dst, &rhs, sizeof(uint32_t));

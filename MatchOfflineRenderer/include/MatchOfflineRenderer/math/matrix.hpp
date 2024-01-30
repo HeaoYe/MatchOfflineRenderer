@@ -3,7 +3,7 @@
 #include <MatchOfflineRenderer/math/types.hpp>
 #include <optional>
 
-namespace MatchOfflineRenderer {
+namespace MatchOfflineRenderer::math {
     // 正方形矩阵
     
     template <size_t N>
@@ -56,6 +56,16 @@ namespace MatchOfflineRenderer {
             for (size_t i = 0; i < N; i ++) {
                 for (size_t j = 0; j < N; j ++) {
                     m.m[i][j] = 0;
+                }
+            }
+            return m;
+        }
+
+        inline static SquareMatrix generate_diag_matrix(const std::array<Real, N> &rhs) noexcept {
+            SquareMatrix m;
+            for (size_t i = 0; i < N; i ++) {
+                for (size_t j = 0; j < N; j ++) {
+                    m.m[i][j] = (i == j) ? rhs[i] : 0;
                 }
             }
             return m;
@@ -136,14 +146,6 @@ namespace MatchOfflineRenderer {
             return true;
         }
 
-        const Real *operator[](int i) const noexcept {
-            return m[i];
-        }
-
-        Real *operator[](int i) noexcept {
-            return m[i];
-        }
-
         template <typename R, typename T>
         R operator*(const T &rhs) const noexcept {
             R result;
@@ -188,7 +190,14 @@ namespace MatchOfflineRenderer {
    
     template <typename R, size_t N, typename T>
     inline R mul(const SquareMatrix<N> &lhs, const T &rhs) noexcept {
-        return lhs * rhs;
+        R result {};
+        for (size_t i = 0; i < N; i ++) {
+            result[i] = 0;
+            for (size_t j = 0; j < N; j ++) {
+                result[i] += lhs.m[i][j] * rhs[j];
+            }
+        }
+        return result;
     }
 
     template <size_t N, typename T>
@@ -225,7 +234,7 @@ namespace MatchOfflineRenderer {
             for (size_t j = 0; j < N; j ++) {
                 result.m[i][j] = 0;
                 for (size_t k = 0; k < N; k ++) {
-                    result.m[i][j] = std::fma(lhs.m[i][k], rhs.m[k][j], result[i][j]);
+                    result.m[i][j] = std::fma(lhs.m[i][k], rhs.m[k][j], result.m[i][j]);
                 }
             }
         }

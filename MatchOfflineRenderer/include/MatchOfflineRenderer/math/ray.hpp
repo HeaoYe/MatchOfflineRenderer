@@ -3,7 +3,7 @@
 #include <MatchOfflineRenderer/math/point.hpp>
 #include <MatchOfflineRenderer/math/vector.hpp>
 
-namespace MatchOfflineRenderer {
+namespace MatchOfflineRenderer::math {
     // 光线
     
     struct Medium;

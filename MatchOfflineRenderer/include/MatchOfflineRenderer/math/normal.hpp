@@ -2,7 +2,7 @@
 
 #include <MatchOfflineRenderer/math/vector.hpp>
 
-namespace MatchOfflineRenderer {
+namespace MatchOfflineRenderer::math {
     // 3D法线
     
     template <typename T>
@@ -146,8 +146,8 @@ namespace MatchOfflineRenderer {
 }
 
 template <typename T>
-struct fmt::formatter<MatchOfflineRenderer::Normal3<T>> : fmt::formatter<std::string_view> {
-    auto format(const MatchOfflineRenderer::Normal3<T> &v, format_context& ctx) const noexcept {
+struct fmt::formatter<MatchOfflineRenderer::math::Normal3<T>> : fmt::formatter<std::string_view> {
+    auto format(const MatchOfflineRenderer::math::Normal3<T> &v, format_context& ctx) const noexcept {
         std::stringstream ss;
         ss << "Normal3<T> " << "{ " << v.x << ", " << v.y << ", " << v.z << " }";
         return formatter<string_view>::format(ss.str(), ctx);
@@ -155,8 +155,8 @@ struct fmt::formatter<MatchOfflineRenderer::Normal3<T>> : fmt::formatter<std::st
 };
 
 template <>
-struct fmt::formatter<MatchOfflineRenderer::Normal3f> : formatter<std::string_view> {
-    auto format(const MatchOfflineRenderer::Normal3f &v, format_context& ctx) const noexcept {
+struct fmt::formatter<MatchOfflineRenderer::math::Normal3f> : formatter<std::string_view> {
+    auto format(const MatchOfflineRenderer::math::Normal3f &v, format_context& ctx) const noexcept {
         std::stringstream ss;
         ss << "Normal3f " << "{ " << v.x << ", " << v.y << ", " << v.z << " }";
         return formatter<string_view>::format(ss.str(), ctx);
