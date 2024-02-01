@@ -251,6 +251,26 @@ namespace MatchOfflineRenderer::math {
             return { center, is_inside(center) ? distance(center, max) : 0 };
         }
 
+        bool intersect_p(const Point3f &origin, const Vector3f &direction, Real t_max, Real *hit_t0, Real *hit_t1) const noexcept {
+            Real t0 = 0, t1 = t_max;
+            for (size_t i = 0; i < 3; i ++) {
+                Real inv_ray_direction = 1 / direction[i];
+                Real t_near = (min[i] - origin[i]) * inv_ray_direction;
+                Real t_far = (max[i] - origin[i]) * inv_ray_direction;
+                if (t_near > t_far) {
+                    std::swap(t_near, t_far);
+                }
+                t_far *= 1 + 2 * gamma(3);
+            }
+            if (hit_t0 != nullptr) {
+                *hit_t0 = t0;
+            }
+            if (hit_t1 != nullptr) {
+                *hit_t1 = t1;
+            }
+            return true;
+        }
+
         inline static Bounds3 generate_union(const Bounds3 &lhs, const Point3<T> rhs) noexcept {
             return {
                 ::MatchOfflineRenderer::math::min(lhs.min, rhs),

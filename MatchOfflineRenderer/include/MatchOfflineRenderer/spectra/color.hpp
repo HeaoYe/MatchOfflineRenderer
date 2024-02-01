@@ -2,6 +2,7 @@
 
 #include <MatchOfflineRenderer/spectra/specified_spectrum.hpp>
 #include <MatchOfflineRenderer/math/point.hpp>
+#include <MatchOfflineRenderer/math/matrix.hpp>
 
 namespace MatchOfflineRenderer::spectra {
     extern std::unique_ptr<spectra::DenselySampledSpectrum> densely_sampled_cie_x;
@@ -268,6 +269,30 @@ namespace MatchOfflineRenderer::spectra {
 
     inline RGB clamp_to_zero(const RGB &rhs) noexcept {
         return { std::max<math::Real>(rhs.r, 0), std::max<math::Real>(rhs.g, 0), std::max<math::Real>(rhs.b, 0) };
+    }
+
+    static const math::SquareMatrix<3> xyz_to_lms_matrix {
+        std::array<math::Real, 9> {
+            0.8951, 0.2664, -0.1614,
+            -0.7502, 1.7135, 0.0367,
+            0.0389, -0.0685, 1.0296
+        }
+    };
+
+    static const math::SquareMatrix<3> lms_to_xyz_matrix {
+        std::array {
+            0.986993, -0.147054, 0.159963,
+            0.432305, 0.51836, 0.0492912,
+            -0.00852866, 0.0400428, 0.968487
+        }
+    };
+
+    inline XYZ xyz_to_lms(const XYZ &rhs) noexcept {
+        return xyz_to_lms_matrix * rhs;
+    }
+
+    inline XYZ lms_to_xyz(const XYZ &rhs) noexcept {
+        return lms_to_xyz_matrix * rhs;
     }
 
     // 光谱转为RGB颜色涉及到了色彩空间,单独在别的头文件中实现

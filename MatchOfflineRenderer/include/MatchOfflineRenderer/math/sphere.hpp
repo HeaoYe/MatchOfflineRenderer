@@ -128,6 +128,25 @@ namespace MatchOfflineRenderer::math {
         }
     };
 
+    inline Point2f wrap_equal_area_square(const Point2f &uv) {
+        Point2f result;
+        if (uv.x < 0) {
+            result.x = -uv.x;
+            result.y = 1 - uv.y;
+        } else if (uv.x > 1) {
+            result.x = 2 - uv.x;
+            result.y = 1 - uv.y;
+        }
+        if (uv.y < 0) {
+            result.x = 1 - uv.x;
+            result.y = -uv.y;
+        } else if (uv.y > 1) {
+            result.x = 1 - uv.x;
+            result.y = 2 - uv.y;
+        }
+        return result;
+    }
+
     inline Vector3f equal_area_square_to_sphere(const Point2f &rhs) noexcept {
         Real u = 2 * rhs.x - 1;
         Real v = 2 * rhs.y - 1;

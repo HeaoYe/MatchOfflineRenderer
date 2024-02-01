@@ -11,8 +11,6 @@ namespace MatchOfflineRenderer::math {
     struct RayPayload {
         Real time {};
         const Medium *medium { nullptr };
-
-        RayPayload() noexcept = default;
     };
 
     struct Ray {
