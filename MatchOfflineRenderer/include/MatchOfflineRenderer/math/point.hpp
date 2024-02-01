@@ -20,10 +20,10 @@ namespace MatchOfflineRenderer::math {
         Point2(T x, T y) noexcept : Tuple2<Point2, T>(x, y) {}
 
         template <typename R>
-        explicit Point2(const Point2<R> &rhs) noexcept : Tuple2<Point2, T>(T { rhs.x }, T { rhs.y }) {}
+        explicit Point2(const Point2<R> &rhs) noexcept : Tuple2<Point2, T>(static_cast<T>(rhs.x), static_cast<T>(rhs.y)) {}
         
         template <typename R>
-        explicit Point2(const Vector2<R> &rhs) noexcept : Tuple2<Point2, T>(T { rhs.x }, T { rhs.y }) {}
+        explicit Point2(const Vector2<R> &rhs) noexcept : Tuple2<Point2, T>(static_cast<T>(rhs.x), static_cast<T>(rhs.y)) {}
 
         Point2<T> operator-() const noexcept { return { -x, -y }; };
 
@@ -52,7 +52,7 @@ namespace MatchOfflineRenderer::math {
         }
         
         template <typename R>
-        Vector2<decltype(T {} - R {})> &operator-(const Point2<R> &rhs) const noexcept {
+        Vector2<decltype(T {} - R {})> operator-(const Point2<R> &rhs) const noexcept {
             return { x - rhs.x, y - rhs.y };
         }
 

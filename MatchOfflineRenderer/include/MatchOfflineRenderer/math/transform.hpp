@@ -234,16 +234,30 @@ namespace MatchOfflineRenderer::math {
             };
         }
 
-        Ray operator()(const Ray &rhs, Real *tMax) const noexcept {
+        Ray operator()(const Ray &rhs, Real *t_max = nullptr) const noexcept {
             Point3fi origin = (*this)(Point3fi(rhs.origin));
             Vector3f direction = (*this)(rhs.direction);
             if (Real length_squa = direction.length_squa(); length_squa > 0) {
-                // Real dt = Dot(abs(direction), origin.Error()) / length_squa;
-                // origin += direction * dt;
-                // if (tMax)
-                //     *tMax -= dt;
+                Real dt = dot(abs(direction), Vector3f { origin.error() }) / length_squa;
+                origin += Point3fi { direction * dt };
+                if (t_max) {
+                    *t_max -= dt;
+                }
             }
             return { Point3f(origin), direction, rhs.payload };
+        }
+
+        RayDifferential operator()(const RayDifferential &ray, Real *t_max = nullptr) const noexcept {
+            Ray tr = (*this)(Ray(ray), t_max);
+            RayDifferential result { tr.origin, tr.direction, ray.payload };
+
+            result.has_differentials = ray.has_differentials;
+            result.origin_x = (*this)(ray.origin_x);
+            result.origin_y = (*this)(ray.origin_y);
+            result.direction_x = (*this)(ray.direction_x);
+            result.direction_y = (*this)(ray.direction_y);
+            
+            return result;
         }
  
         Bounds3f operator()(const Bounds3f &rhs) const noexcept {
@@ -402,6 +416,21 @@ namespace MatchOfflineRenderer::math {
 
             SquareMatrix<4> world_to_camera = force_inverse(camera_to_world);
             return { world_to_camera, camera_to_world };
+        }
+
+        inline static Transform generate_orthographic(Real z_near, Real z_far) noexcept {
+            return generate_scale(1, 1, 1 / (z_far - z_near)) * generate_translate({ 0, 0, -z_near });
+        }
+
+        inline static Transform generate_perspective(Real fov, Real z_near, Real z_far) noexcept {
+            SquareMatrix<4> perspective { std::array<Real, 16> {
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, z_far / (z_far - z_near), - z_far * z_near / (z_far - z_near),
+                0, 0, 1, 0,
+            } };
+            Real inv_tan_angle = 1 / std::tan(fov / 2);
+            return Transform::generate_scale(inv_tan_angle, inv_tan_angle, 1) * perspective;
         }
     };
 

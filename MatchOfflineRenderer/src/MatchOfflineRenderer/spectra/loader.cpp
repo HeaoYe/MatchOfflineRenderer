@@ -29,8 +29,8 @@ namespace MatchOfflineRenderer::spectra {
         densely_sampled_cie_z = std::make_unique<DenselySampledSpectrum>(linear_z);
 
         // 标准光照光谱
-        piecewise_linear_cie_illum_d65 = std::make_unique<PiecewiseLinearSpectrum>(convert_from_cie_data(cie_illum_d65, true));
-        piecewise_linear_cie_aces_illum_d60 = std::make_unique<PiecewiseLinearSpectrum>(convert_from_cie_data(cie_aces_illum_d60, true));
+        piecewise_linear_cie_illum_d65 = std::make_unique<PiecewiseLinearSpectrum>(convert_from_interleaved_data(cie_illum_d65, true));
+        piecewise_linear_cie_aces_illum_d60 = std::make_unique<PiecewiseLinearSpectrum>(convert_from_interleaved_data(cie_aces_illum_d60, true));
         
         // 色彩空间
         colorspace_sRGB = std::make_unique<RGBColorSpace>(

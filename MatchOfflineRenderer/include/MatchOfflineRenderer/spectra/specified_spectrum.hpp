@@ -23,7 +23,7 @@ namespace MatchOfflineRenderer::spectra {
 
         DenselySampledSpectrum() noexcept = default;
 
-        DenselySampledSpectrum(Spectrum &spectrum, int lambda_min = ::MatchOfflineRenderer::spectra::lambda_min, int lambda_max = ::MatchOfflineRenderer::spectra::lambda_max) noexcept : lambda_min(lambda_min), lambda_max(lambda_max), values(lambda_max - lambda_min + 1) {
+        DenselySampledSpectrum(const Spectrum &spectrum, int lambda_min = ::MatchOfflineRenderer::spectra::lambda_min, int lambda_max = ::MatchOfflineRenderer::spectra::lambda_max) noexcept : lambda_min(lambda_min), lambda_max(lambda_max), values(lambda_max - lambda_min + 1) {
             for (int lambda = lambda_min; lambda <= lambda_max; lambda ++) {
                 values[lambda - lambda_min] = spectrum(lambda);
             }
@@ -45,10 +45,10 @@ namespace MatchOfflineRenderer::spectra {
         std::vector<math::Real> lambdas {};
         std::vector<math::Real> values {};
 
-        PiecewiseLinearSpectrum(Spectrum *spectrum, const std::vector<math::Real> &lambdas) noexcept : PiecewiseLinearSpectrum(lambdas, ([&]() {
+        PiecewiseLinearSpectrum(const Spectrum &spectrum, const std::vector<math::Real> &lambdas) noexcept : PiecewiseLinearSpectrum(lambdas, ([&]() {
             std::vector<math::Real> values(lambdas.size());
             for (size_t i = 0; i < lambdas.size(); i ++) {
-                values[i] = (*spectrum)(lambdas[i]);
+                values[i] = spectrum(lambdas[i]);
             }
             return values;
         })()) {}
@@ -135,7 +135,7 @@ namespace MatchOfflineRenderer::spectra {
     extern std::unique_ptr<spectra::PiecewiseLinearSpectrum> piecewise_linear_cie_aces_illum_d60;
 
     template <size_t N>
-    PiecewiseLinearSpectrum convert_from_cie_data(const std::array<math::Real, N> &samples, bool normalize) noexcept {
+    PiecewiseLinearSpectrum convert_from_interleaved_data(const std::array<math::Real, N> &samples, bool normalize) noexcept {
         extern std::unique_ptr<spectra::DenselySampledSpectrum> densely_sampled_cie_y;
         MCH_DASSERT(N % 2 == 0)
 

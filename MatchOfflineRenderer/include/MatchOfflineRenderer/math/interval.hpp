@@ -16,6 +16,18 @@ namespace MatchOfflineRenderer::math {
         return dst;
     }
 
+    inline uint64_t double_to_bits(double rhs) {
+        uint64_t dst;
+        std::memcpy(&dst, &rhs, sizeof(uint64_t));
+        return dst;
+    }
+
+    inline uint64_t bits_to_double(uint64_t rhs) {
+        double dst;
+        std::memcpy(&dst, &rhs, sizeof(double));
+        return dst;
+    }
+
     inline float next_float_up(float rhs) {
         if (std::isinf(rhs) && rhs > 0.0f) {
             return rhs;

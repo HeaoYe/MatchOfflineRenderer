@@ -9,7 +9,7 @@ namespace MatchOfflineRenderer::spectra {
 
         explicit SampledSpectrum(math::Real c) noexcept { values.fill(c); }
 
-        SampledSpectrum(const std::array<math::Real, spectrum_sample_count> &values) noexcept : values(values) {}
+        explicit SampledSpectrum(const std::array<math::Real, spectrum_sample_count> &values) noexcept : values(values) {}
 
         bool is_zero() const noexcept {
             for (auto value : values) {
@@ -172,10 +172,10 @@ namespace MatchOfflineRenderer::spectra {
 
     // 对波长的采样
     struct SampledWavelengths {
-        std::array<math::Real, spectrum_sample_count> lambda {};
+        std::array<math::Real, spectrum_sample_count> lambdas {};
         std::array<math::Real, spectrum_sample_count> pdf {};
 
-        SampledSpectrum pdf_as_sampled_spectrum() const noexcept { return { pdf }; }
+        SampledSpectrum pdf_as_sampled_spectrum() const noexcept { return SampledSpectrum { pdf }; }
 
         bool is_terminated() const noexcept {
             for (size_t i = 1; i < spectrum_sample_count; i ++) {
@@ -199,18 +199,36 @@ namespace MatchOfflineRenderer::spectra {
         inline static SampledWavelengths generate_sample_uniform(math::Real t, math::Real lambda_min = ::MatchOfflineRenderer::spectra::lambda_min, math::Real lambda_max = ::MatchOfflineRenderer::spectra::lambda_max) noexcept {
             SampledWavelengths result {};
 
-            result.lambda[0] = math::lerp(lambda_min, lambda_max, t);
+            result.lambdas[0] = math::lerp(lambda_min, lambda_max, t);
 
             math::Real delta = (lambda_max - lambda_min) / spectrum_sample_count;
             for (size_t i = 1; i < spectrum_sample_count; i ++) {
-                result.lambda[i] = result.lambda[i - 1] + delta;
-                if (result.lambda[i] > lambda_max) {
-                    result.lambda[i] = lambda_min + (result.lambda[i] - lambda_max);
+                result.lambdas[i] = result.lambdas[i - 1] + delta;
+                if (result.lambdas[i] > lambda_max) {
+                    result.lambdas[i] = lambda_min + (result.lambdas[i] - lambda_max);
                 }
             }
 
             result.pdf.fill(1 / (lambda_max - lambda_min));
 
+            return result;
+        }
+
+        inline static SampledWavelengths generate_sample_visiable(math::Real t) noexcept {
+            SampledWavelengths result {};
+            for (size_t i = 0; i < spectrum_sample_count; i ++) {
+                math::Real u = t + static_cast<math::Real>(i) / spectrum_sample_count;
+                if (u > 1) {
+                    u -= 1;
+                }
+                result.lambdas[i] = 538.0 - 138.888889 * std::atanh(0.85691062 - 1.82750197 * u);
+                if (result.lambdas[i] < lambda_min || result.lambdas[i] > lambda_max) {
+                    result.pdf[i] = 0;
+                } else {
+                    auto n = std::cosh(0.0072 * (result.lambdas[i] - 538.0));
+                    result.pdf[i] = 0.0039398042 / (n * n);
+                }
+            }
             return result;
         }
     };
@@ -224,7 +242,7 @@ namespace MatchOfflineRenderer::spectra {
         SampledSpectrum sample(const SampledWavelengths &wavelengths) const noexcept {
             SampledSpectrum result { 0 };
             for (size_t i = 0; i < spectrum_sample_count; i ++) {
-                result.values[i] = (*this)(wavelengths.lambda[i]);
+                result.values[i] = (*this)(wavelengths.lambdas[i]);
             }
             return result;
         }

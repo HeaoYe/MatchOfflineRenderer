@@ -107,6 +107,26 @@ int main() {
     改为4个采样点, 精度降低
     R: 0.5933764330246816, G: 0.440891496332491, B: 0.7718103597424845
     */
+
+    // auto film = MatchOfflineRenderer::camera::RGBFilm {
+    //     {},
+    //     *MatchOfflineRenderer::spectra::colorspace_sRGB,
+    //     1,
+    //     false
+    // };
+    // film.resolution = { 1920, 1080 };
+    // Medium medium;
+    // auto c = MatchOfflineRenderer::camera::OrthographicCamera(
+    //     {
+    //         {},
+    //         0,
+    //         1,
+    //         film,
+    //         medium
+    //     },
+    //     { { 0, 0 }, { 1, 1 } },
+    //     0, 1
+    // );
     
     MatchOfflineRenderer::Destroy();
     return 0;
